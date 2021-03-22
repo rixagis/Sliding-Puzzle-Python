@@ -10,15 +10,14 @@ DOWN = 3
 LEFT = 4
 
 class Game:
-    """Logical game board"""
+    """Logical game board."""
 
     def __init__(self, width, height):
-        """Create a board
+        """Init a game board.
 
-        :param width: Width of the board in squares.
-        :type width: int
-        :param height: Height of the board in squares.
-        :type height: int
+        Args:
+            width (int): Width of the board in squares.
+            height (int): Height of the board in squares.
         """
         self.width = width
         self.height = height
@@ -28,7 +27,8 @@ class Game:
         self.init_board()
 
     def init_board(self):
-        """Fill the board with pieces and places them in initial positions"""
+        """Fill the board with pieces and places them in initial positions."""
+
         self._board = []
         for x in range(self.width - 1):     #filling with columns and then with rows
             self._board.append([])           #to keep [x][y] addressing
@@ -45,23 +45,24 @@ class Game:
     def get(self, x, y):
         """Get the value of the piece at (x, y) position.
 
-        :param x: x-coord in squares
-        :type x: int
-        :param y: y-coord in squares
-        :type y: int
-        :return: The value of the piece at (x, y)
-        :rtype: int
+        Args:
+            x (int): x-coord in squares
+            y (int): y-coord in squares
+
+        Returns:
+            int: The value of the piece at (x, y)
         """
         return self._board[x][y]
 
     def move(self, direction):
         """Moves the piece near the empty cell to the given direction.
+
         The direction determines the moving piece uniquely due to the rules of the game.
         If there is no legal move in given direction, nothing happens.
 
-        :param direction: The direction in which the available piece should move.
-        Named constants UP, RIGHT, DOWN and LEFT should be used.
-        :type direction: int
+        Args:
+            direction (int): The direction in which the available piece should move.
+                Named constants UP, RIGHT, DOWN and LEFT should be used.
         """
         x0, y0 = self._empty_x, self._empty_y
         if direction == UP:
@@ -86,13 +87,13 @@ class Game:
                 self._empty_x = x0 + 1
 
     def press(self, x, y):
-        """Process player's press action:
-        if the player presses a piece near the empty cell, that piece should move there.
+        """Process player's press action on a cell.
 
-            :param x: x-coord of the pressed cell
-            :type x: int
-            :param y: y-coord of the pressed cell
-            :type y: int
+        If the player presses a piece near the empty cell, that piece should move there.
+
+        Args:
+            x (int): x-coord of the pressed cell
+            y (int): y-coord of the pressed cell
         """
         if x < self.width - 1 and self._board[x+1][y] == 0:
             self.move(RIGHT)
@@ -106,8 +107,8 @@ class Game:
     def is_solved(self):
         """Check if the game is solved (if all the pieces are in initial positions).
 
-        :return: `True` if the game is solved, `False` otherwise.
-        :rtype: bool
+        Returns:
+            bool: `True` if the game is solved, `False` otherwise.
         """
         solved = True
         for x in range(self.width - 1):
@@ -123,8 +124,8 @@ class Game:
         return solved
 
     def shuffle(self):
-        """Shuffle the game board randomly.
-        """
+        """Shuffle the game board randomly."""
+
         move_count = random.randint(500, 1000)
         choices = [UP, DOWN, RIGHT, LEFT]
         direction = random.choice(choices)
