@@ -1,5 +1,11 @@
 """
-Game model class
+This module contains the Game class implementing game logic.
+
+Attributes:
+    UP (int): Constant, used for providing arguments for 'move' method.
+    RIGHT (int): Constant, used for providing arguments for 'move' method.
+    DOWN (int): Constant, used for providing arguments for 'move' method.
+    LEFT (int): Constant, used for providing arguments for 'move' method.
 """
 
 import random
@@ -10,7 +16,12 @@ DOWN = 3
 LEFT = 4
 
 class Game:
-    """Logical game board."""
+    """Logical game board.
+    
+    Attributes:
+        width (int): Width of the game board in squares.
+        height(int): Height of the game board in squares.
+    """
 
     def __init__(self, width, height):
         """Init a game board.
