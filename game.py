@@ -46,8 +46,9 @@ class Game:
             for y in range(self.height):
                 self._board[x].append(y * self.width + x + 1)
 
+        self._board.append([])
         for y in range(self.height - 1):    #the last cell must be empty
-            self._board[self.width-1].append(y * self.width + x + 1)
+            self._board[self.width-1].append(y * self.width + self.height)
 
         self._board[self.width - 1].append(0)   #0 is the empty cell
         self._empty_x = self.width - 1  #should remember the position of the empty cell
@@ -77,25 +78,25 @@ class Game:
         """
         x0, y0 = self._empty_x, self._empty_y
         if direction == UP:
-            if y0 > 0:
-                self._board[x0][y0] = self._board[x0][y0 - 1]
-                self._board[x0][y0 - 1] = 0
-                self._empty_y = y0 - 1
-        elif direction == DOWN:
             if y0 < self.height - 1:
                 self._board[x0][y0] = self._board[x0][y0 + 1]
                 self._board[x0][y0 + 1] = 0
                 self._empty_y = y0 + 1
+        elif direction == DOWN:
+            if y0 > 0:
+                self._board[x0][y0] = self._board[x0][y0 - 1]
+                self._board[x0][y0 - 1] = 0
+                self._empty_y = y0 - 1
         elif direction == LEFT:
-            if x0 > 0:
-                self._board[x0][y0] = self._board[x0 - 1][y0]
-                self._board[x0 - 1][y0] = 0
-                self._empty_x = x0 - 1
-        elif direction == RIGHT:
             if x0 < self.width - 1:
                 self._board[x0][y0] = self._board[x0 + 1][y0]
                 self._board[x0 + 1][y0] = 0
                 self._empty_x = x0 + 1
+        elif direction == RIGHT:
+            if x0 > 0:
+                self._board[x0][y0] = self._board[x0 - 1][y0]
+                self._board[x0 - 1][y0] = 0
+                self._empty_x = x0 - 1
 
     def press(self, x, y):
         """Process player's press action on a cell.
@@ -124,12 +125,12 @@ class Game:
         solved = True
         for x in range(self.width - 1):
             for y in range(self.height):
-                if self._board[x][y] != y * self.width + x + 1:
+                if self.get(x, y) != y * self.width + x + 1:
                     solved = False
         for y in range(self.height - 1):
-            if self._board[self.width-1][y] != y * self.width + x + 1:
+            if self.get(self.width - 1, y) != y * self.width + self.width:
                 solved = False
-        if self._board[self.width-1][self.height-1] != 0:
+        if self.get(self.width - 1, self.height - 1) != 0:
             solved = False
 
         return solved
@@ -146,3 +147,19 @@ class Game:
             new_choices.remove(direction)   #remove the previously used direction
             direction = random.choice(new_choices)
             self.move(direction)
+    
+    def __str__(self):
+        """Gets string representation of the game state
+        
+        Returns:
+            str: The string representation of the game state."""
+
+        res = ""
+        for y in range(self.height):
+            row = ""
+            for x in range(self.width - 1):
+                row += str(self.get(x, y)) + ' '
+            
+            res += row + str(self.get(self.width-1, y)) + '\n'
+        return res
+
