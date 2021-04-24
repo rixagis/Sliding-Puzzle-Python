@@ -20,7 +20,7 @@ class Game:
     
     Attributes:
         width (int): Width of the game board in squares.
-        height(int): Height of the game board in squares.
+        height (int): Height of the game board in squares.
     """
 
     def __init__(self, width, height):
