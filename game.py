@@ -147,6 +147,7 @@ class Game:
             new_choices.remove(direction)   #remove the previously used direction
             direction = random.choice(new_choices)
             self.move(direction)
+        if self.is_solved(): self.shuffle()    #try again
     
     def __str__(self):
         """Gets string representation of the game state

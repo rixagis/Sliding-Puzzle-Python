@@ -32,7 +32,6 @@ class BoardPanel(tkinter.Canvas):
         self.event_listener = None
         self.bind("<Button-1>", self.on_click)
 
-        print(self["width"], self["height"])
         self.width_cells = width_cells
         self.cell_width = int(int(self["width"]) / self.width_cells)
         self.height_cells = height_cells
@@ -67,7 +66,7 @@ class BoardPanel(tkinter.Canvas):
         for row in range(game.height):
             y = row * self.cell_height
             for column in range(game.width):
-                x = column * self.cell_height
+                x = column * self.cell_width
                 number = game.get(column, row)
                 if number != 0:
                     self.create_rectangle(x, y, x + self.cell_width, y + self.cell_height, fill='red')
